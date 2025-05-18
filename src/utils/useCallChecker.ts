@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 export function useCallChecker(myNumber: number | null) {
   const [currentNumber, setCurrentNumber] = useState<number | null>(null);
   const [status, setStatus] = useState("");
+  const [notified, setNotified] = useState(false);
 
   useEffect(() => {
     const fetchNumber = async () => {
@@ -16,10 +17,12 @@ export function useCallChecker(myNumber: number | null) {
         if (myNumber !== null) {
           if (number >= myNumber) {
             setStatus("🎉 已叫到你了！");
+            setNotified(true);
           } else if (number >= myNumber - 3) {
             setStatus("⚠️ 快輪到你囉！");
           } else {
             setStatus("");
+            setNotified(false);
           }
         }
       } catch (err) {
@@ -32,5 +35,5 @@ export function useCallChecker(myNumber: number | null) {
     return () => clearInterval(interval);
   }, [myNumber]);
 
-  return { currentNumber, status };
+  return { currentNumber, status, notified, setNotified };
 }
