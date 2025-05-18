@@ -20,7 +20,8 @@ export async function GET() {
     } else {
       return NextResponse.json({ error: "無法取得號碼" }, { status: 500 });
     }
-  } catch (err: any) {
-    return NextResponse.json({ error: "擷取失敗", detail: err.message }, { status: 500 });
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : "未知錯誤";
+    return NextResponse.json({ error: "擷取失敗", detail: errorMessage }, { status: 500 });
   }
 }

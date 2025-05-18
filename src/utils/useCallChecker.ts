@@ -25,7 +25,7 @@ export function useCallChecker(myNumber: number | null) {
             setNotified(false);
           }
         }
-      } catch (err) {
+      } catch {
         setStatus("❌ 無法取得叫號資訊");
       }
     };
