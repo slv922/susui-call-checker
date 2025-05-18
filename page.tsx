@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCallChecker } from "@/utils/useCallChecker";
 
 export default function Home() {
@@ -12,27 +12,7 @@ export default function Home() {
     return null;
   });
 
-  const { currentNumber, status, notified, setNotified } = useCallChecker(myNumber);
-
-  useEffect(() => {
-    if (status.includes("已叫到") && !notified) {
-      if (Notification.permission === "granted") {
-        new Notification("📢 已叫到你囉！", {
-          body: `目前叫號：${currentNumber}`,
-        });
-        setNotified(true);
-      } else if (Notification.permission !== "denied") {
-        Notification.requestPermission().then((permission) => {
-          if (permission === "granted") {
-            new Notification("📢 已叫到你囉！", {
-              body: `目前叫號：${currentNumber}`,
-            });
-            setNotified(true);
-          }
-        });
-      }
-    }
-  }, [status, notified, currentNumber, setNotified]);
+  const { currentNumber, status } = useCallChecker(myNumber);
 
   return (
     <main className="p-6 font-sans">
